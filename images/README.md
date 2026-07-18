@@ -1,65 +1,139 @@
 # Images
 
-Every file here is a **placeholder**. They're real, committed assets so the
-site never renders with broken images — but they're generated graphics, not
-screenshots. Swap them for the real thing whenever you have it.
+## TL;DR
 
-## What's here
+**A new project needs no image at all.** Leave `image` out of its entry in
+`js/data.js` and the card draws a CSS placeholder that matches the site's
+theme automatically.
 
-| File | Used by | Size | Notes |
+Only add a file when you have a real screenshot, or when you need an image you
+can use *outside* the page.
+
+---
+
+## Recommended sizes
+
+| What | Size | Format | Notes |
 |---|---|---|---|
-| `avatar.svg` | ID badge in the hero | 200×200 | Square. Rendered as a circle. |
-| `favicon.svg` | Browser tab | 64×64 | |
-| `og-cover.png` | Social sharing previews | 1200×630 | **Must be PNG or JPG** — most social platforms won't render SVG. |
-| `og-cover.svg` | Source for the PNG above | 1200×630 | Edit this, then re-export the PNG. |
-| `projects/<id>.svg` | Cards in `~/apps` | 640×400 | One per project. |
-| `projects/placeholder.svg` | Fallback | 640×400 | Shown automatically if a project's image is missing or fails to load. |
+| Project screenshot | **1280×800** | PNG or JPG | 16:10 — the card's exact aspect ratio. Cropped to fill, so keep the subject centred. |
+| Your photo | **400×400** | JPG | Square. Displayed as a 68px circle, so 400px is plenty. |
+| Social / OG card | **1200×630** | PNG or JPG | Must not be SVG — most platforms won't render it. |
+| Favicon | 64×64 | SVG | |
 
-## Replacing an image
+Keep screenshots under ~300 KB. They're lazy-loaded, but a portfolio shouldn't
+ship megabytes of PNGs. [Squoosh](https://squoosh.app) is a good free
+compressor — JPG at quality 80 is usually indistinguishable and a fraction of
+the size.
 
-### Your photo
+---
 
-Drop your headshot in as `avatar.jpg`, then point the badge at it in
-`index.html`:
+## Current files
 
-```html
-<img class="badge-avatar" src="images/avatar.jpg" ... />
-```
+| File | Used by |
+|---|---|
+| `id-pic.jpeg` | The ID badge in the hero |
+| `avatar.svg` | Fallback portrait, if you'd rather not use a photo |
+| `favicon.svg` | Browser tab |
+| `og-cover.png` | Social sharing previews |
+| `og-cover.svg` | Editable source for the PNG above |
+| `projects/*.png` | Real project screenshots |
 
-Square crop, at least 200×200. It's displayed as a circle, so keep your face
-centred.
+---
 
-### A project screenshot
+## Adding a project screenshot
 
-Save it as `projects/<project-id>.png` — the id is the `id` field from
-`js/data.js` — then update that project's `image` value:
+1. Save it as `projects/<project-id>.png` — the id is the `id` field from
+   `js/data.js`.
+2. Point the project at it:
 
 ```js
 {
   id: 'invoicer',
-  image: 'images/projects/invoicer.png',   // was: .../invoicer.svg
+  image: 'images/projects/invoicer.png',
   ...
 }
 ```
 
-**Recommended: 1280×800** (a 16:10 browser window). Cards display at 16:10 and
-crop to fill, so anything at that ratio lands cleanly. Keep files under ~300 KB
-— they're lazy-loaded, but a portfolio shouldn't ship megabytes of PNGs.
+Remove that line again and the CSS placeholder comes back. If the file is ever
+missing or fails to load, the card falls back to the placeholder rather than
+showing a broken image.
 
-### The social card
+---
 
-Edit `og-cover.svg`, then export a 1200×630 PNG over `og-cover.png`. Any tool
-works — a browser screenshot at that exact viewport size is the simplest.
+## Generating placeholder image files
 
-Then check it renders correctly with:
-- <https://cards-dev.twitter.com/validator>
+You normally don't need this — the CSS placeholder covers the site itself.
+Use the generator when you want an actual **file**: a README banner, a social
+preview, or a card to share somewhere the site's CSS doesn't reach.
+
+```bash
+# From a GitHub repo — pulls name, description, language, stars and topics
+node tools/make-placeholder.js kamalahmed/invoicer
+node tools/make-placeholder.js https://github.com/kamalahmed/invoicer
+
+# Manually, for private or non-GitHub projects
+node tools/make-placeholder.js \
+  --id acme-ops \
+  --name "Acme Ops" \
+  --language PHP \
+  --stack "WordPress,REST,Redis" \
+  --tagline "Internal operations dashboard."
+
+# Every project in data.js that has no image yet
+node tools/make-placeholder.js --all
+
+# Light-theme version
+node tools/make-placeholder.js kamalahmed/invoicer --theme light
+
+# All options
+node tools/make-placeholder.js --help
+```
+
+Output lands in `images/projects/<id>.svg` at 640×400. No dependencies, Node
+18+.
+
+Useful flags: `--theme dark|light`, `--out <dir>`, `--width` / `--height`,
+`--force` to overwrite, `--quiet` to print only the path.
+
+The generated SVGs are 2–4 KB each — lighter than any screenshot, sharp at any
+size, and readable as plain text in a diff.
+
+---
+
+## CSS placeholder vs. image file
+
+Both draw the same terminal-card design. They differ in what they can do:
+
+| | CSS placeholder | Generated SVG file |
+|---|---|---|
+| Follows dark/light theme | **Yes**, automatically | No — colours are baked in at generation |
+| Scales with the card | **Yes**, via container queries | Scales as an image, fixed proportions |
+| Extra file | None | ~3 KB per project |
+| Extra request | None | One per card |
+| Work to add a project | **None** | Run the script, add the path |
+| Usable outside the page | No | **Yes** — README, social, anywhere |
+
+**Use the CSS placeholder** (i.e. just omit `image`) for anything on the site.
+This is why the repo ships with no project SVGs: an exported file can't follow
+the theme, so light mode showed dark cards.
+
+**Generate a file** when the image has to live somewhere the site's stylesheet
+doesn't — a README, a social preview, a slide.
+
+**Use a real screenshot** whenever you have one. A placeholder is a stand-in;
+an actual picture of the product is always more persuasive.
+
+---
+
+## Regenerating the social card
+
+`og-cover.png` is a rasterised copy of `og-cover.svg`. To update it, edit the
+SVG, then export a 1200×630 PNG. Any method works — the simplest is a browser
+screenshot at exactly that viewport size.
+
+Check the result renders correctly before relying on it:
+
 - <https://www.opengraph.xyz/>
+- <https://cards-dev.twitter.com/validator>
 
-Note that both platforms cache aggressively; a changed image can take a while
-to show up.
-
-## Why SVG placeholders?
-
-They're a few KB each, they're sharp at any resolution, they're readable as
-plain text in a diff, and they're generated from the same colour tokens as the
-site — so they look intentional rather than like missing assets.
+Both cache aggressively, so a changed image can take a while to appear.

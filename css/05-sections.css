@@ -390,6 +390,130 @@
   border-bottom: 1px solid var(--line2);
 }
 
+/* --------------------------------------------------------------------------
+   CSS PLACEHOLDER
+   --------------------------------------------------------------------------
+   Rendered by js/projects.js whenever a project has no `image` in data.js.
+   It mimics a terminal window opening the project.
+
+   WHY CSS RATHER THAN AN IMAGE FILE
+   ---------------------------------
+   1. It follows the theme. An exported PNG/SVG bakes in whichever colours it
+      was generated with, so it stays dark when the visitor switches to light
+      mode. This is drawn from the same CSS variables as everything else, so
+      it is always correct.
+   2. It scales. Text and spacing are sized in container-query units, so the
+      card looks deliberate at any width instead of scaling a fixed bitmap.
+   3. It costs nothing — no extra file, no request, and adding a project needs
+      no asset at all.
+
+   Use a real image file when you have an actual screenshot, or when you need
+   something shareable outside the page (README, social cards). Generate one
+   with: node tools/make-placeholder.js
+   -------------------------------------------------------------------------- */
+.project-ph {
+  /* Establishes the container so descendants can size themselves against the
+     card's width (cqi units below) rather than the viewport. */
+  container-type: inline-size;
+
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--panel2);
+  border-bottom: 1px solid var(--line2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  /* Per-project accent, set inline by projects.js from the language colour. */
+  --ph-accent: var(--green);
+}
+
+/* Faint dot grid, so the panel doesn't read as a flat empty block. */
+.project-ph::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    color-mix(in srgb, var(--green) 22%, transparent) 1px,
+    transparent 0
+  );
+  background-size: 22px 22px;
+  opacity: .5;
+  pointer-events: none;
+}
+
+.project-ph-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line2);
+  flex: none;
+  position: relative;
+}
+.project-ph-bar .dot { width: 7px; height: 7px; }
+
+.project-ph-path {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.project-ph-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  position: relative;
+  min-width: 0;
+}
+
+.project-ph-cmd  { font-size: 11px; color: var(--green); }
+.project-ph-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.1;
+  /* Long project names shrink rather than overflow the card. */
+  overflow-wrap: anywhere;
+}
+.project-ph-lang { font-size: 11px; color: var(--ph-accent); }
+
+.project-ph-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+.project-ph-tags .tag { font-size: 9.5px; padding: 1px 5px; }
+
+/* Container queries let the placeholder scale with the CARD, not the window —
+   important because card width changes with the grid, independent of viewport.
+   The fixed px values above are the fallback for browsers without support. */
+@supports (container-type: inline-size) {
+  .project-ph-cmd  { font-size: clamp(9px, 3.6cqi, 13px); }
+  .project-ph-name { font-size: clamp(16px, 8.5cqi, 32px); }
+  .project-ph-lang { font-size: clamp(9px, 3.6cqi, 13px); }
+  .project-ph-path { font-size: clamp(8px, 3cqi, 11px); }
+  .project-ph-tags .tag { font-size: clamp(8px, 3cqi, 11px); }
+  .project-ph-body { padding: clamp(8px, 5cqi, 22px); }
+}
+
+/* Very short cards (narrow grid columns): drop the tags so the name keeps
+   room to breathe. */
+@container (max-width: 210px) {
+  .project-ph-tags { display: none; }
+}
+
 .project-body {
   padding: 16px 18px;
   display: flex;

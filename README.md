@@ -22,6 +22,8 @@ build step, no dependencies — just HTML, CSS, and vanilla JavaScript.
   with synthesised sound (no audio files)
 - **Dark / light themes** — toggled with an animated circular wipe via the View
   Transitions API, remembered across visits
+- **Zero-asset project cards** — projects without a screenshot render a
+  theme-aware CSS placeholder, so adding one needs no image file at all
 - **Mobile-first responsive** — every media query lives in one file
 - **Accessible** — semantic landmarks, keyboard navigable, visible focus rings,
   `prefers-reduced-motion` respected throughout
@@ -70,7 +72,9 @@ terminal-portfolio/
 │   ├── activity.js  projects.js  terminal.js  skills.js  contact.js
 │   ├── games/              shell.js + snake, typing, memory, sequence
 │   └── main.js             Boots everything (loads last)
-└── images/                 Placeholder art — see images/README.md
+├── tools/
+│   └── make-placeholder.js Generates project placeholder images (optional)
+└── images/                 Photo, icons, screenshots — see images/README.md
 ```
 
 Everything attaches to a single global, `window.TP`, so there are no module
@@ -163,9 +167,57 @@ the terminal-style confirmation.
 
 ### 5. Your images
 
-See [`images/README.md`](images/README.md) for filenames and sizes. Short  
-version: replace `images/avatar.svg or id-pic.jpeg`  with your photo, drop project screenshots  
-into `images/projects/`, and point `data.js` at them.
+Replace `images/id-pic.jpeg` with your photo (square, 400x400 is plenty), and
+drop project screenshots into `images/projects/`.
+
+**Recommended sizes**
+
+| What | Size | Format |
+|---|---|---|
+| Project screenshot | **1280x800** (16:10) | PNG or JPG |
+| Your photo | **400x400** | JPG |
+| Social / OG card | **1200x630** | PNG or JPG - not SVG |
+
+**A new project needs no image at all.** Leave `image` out of its entry in
+`js/data.js` and the card draws a CSS placeholder instead - a small terminal
+window showing the project name, language, and stack:
+
+```js
+{
+  id: 'newproject',
+  name: 'New Project',
+  language: 'PHP',
+  stack: ['Node', 'Postgres'],
+  featured: true
+  // no `image` -> CSS placeholder
+}
+```
+
+That placeholder follows the light/dark theme, scales with the card, and adds
+no file and no extra request. It is also the fallback if a real screenshot
+ever fails to load.
+
+**To generate a placeholder as an actual image file** - for a README banner, a
+social preview, or anywhere outside the site - use the bundled generator:
+
+```bash
+# From a GitHub repo: pulls name, description, language, stars and topics
+node tools/make-placeholder.js kamalahmed/invoicer
+
+# Manually, for private or non-GitHub projects
+node tools/make-placeholder.js --name "Acme Ops" --language PHP \
+  --stack "WordPress,REST" --tagline "Internal ops dashboard."
+
+# Every project in data.js that has no image yet
+node tools/make-placeholder.js --all
+
+node tools/make-placeholder.js --help
+```
+
+No dependencies, Node 18+. Output is a ~3 KB SVG in `images/projects/`.
+
+See [`images/README.md`](images/README.md) for a full comparison of CSS
+placeholders vs. image files, and when to reach for each.
 
 ### 6. Turn things off
 

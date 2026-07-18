@@ -45,13 +45,22 @@ window.TP.projects = (function () {
     });
   }
 
-  function buildCard(p) {
-    /* ---- Screenshot ----
-       Explicit width/height give the browser the aspect ratio up front, so
+  /**
+   * The card's visual: a real screenshot when the project has one, otherwise
+   * a CSS placeholder.
+   *
+   * The placeholder is built from DOM rather than loaded as an image file so
+   * that it follows the light/dark theme and scales with the card. See the
+   * CSS PLACEHOLDER block in css/05-sections.css for the reasoning.
+   */
+  function buildVisual(p) {
+    if (!p.image) return buildPlaceholder(p);
+
+    /* Explicit width/height give the browser the aspect ratio up front, so
        nothing jumps around as images load. */
     const shot = el('img', {
       class: 'project-shot',
-      src: p.image || 'images/projects/placeholder.svg',
+      src: p.image,
       alt: p.name + ' screenshot',
       width: 640,
       height: 400,
@@ -59,10 +68,44 @@ window.TP.projects = (function () {
       decoding: 'async'
     });
 
-    // A missing image file shouldn't leave a broken-image icon in the card.
+    // If the file is missing or fails to load, swap in the CSS placeholder
+    // rather than leaving a broken-image icon in the card.
     shot.addEventListener('error', () => {
-      shot.src = 'images/projects/placeholder.svg';
+      shot.replaceWith(buildPlaceholder(p));
     }, { once: true });
+
+    return shot;
+  }
+
+  /** Terminal-styled stand-in shown when a project has no screenshot. */
+  function buildPlaceholder(p) {
+    const tags = el('div', { class: 'project-ph-tags' });
+    (p.stack || []).slice(0, 3).forEach(t => tags.append(el('span', { class: 'tag' }, t)));
+
+    return el('div', {
+      class: 'project-ph',
+      // Tint the language line with the project's language colour.
+      style: '--ph-accent:' + langColor(p.language),
+      // Purely decorative — the real project details sit below it in the card.
+      'aria-hidden': 'true'
+    },
+      el('div', { class: 'project-ph-bar' },
+        el('span', { class: 'dot dot-red' }),
+        el('span', { class: 'dot dot-amber' }),
+        el('span', { class: 'dot dot-green' }),
+        el('span', { class: 'project-ph-path' }, '~/' + p.id)
+      ),
+      el('div', { class: 'project-ph-body' },
+        el('p', { class: 'project-ph-cmd' }, '$ open ' + p.id),
+        el('p', { class: 'project-ph-name' }, p.name),
+        el('p', { class: 'project-ph-lang' }, '● ' + p.language),
+        tags
+      )
+    );
+  }
+
+  function buildCard(p) {
+    const visual = buildVisual(p);
 
     /* ---- Stack tags ---- */
     const stack = el('div', { class: 'project-stack' });
@@ -95,7 +138,7 @@ window.TP.projects = (function () {
     const stars = starLabel(p);
 
     return el('article', { class: 'card card-hover project-card' },
-      shot,
+      visual,
       el('div', { class: 'project-body' },
         el('div', { class: 'project-head' },
           el('h3', { class: 'project-name' }, p.name),

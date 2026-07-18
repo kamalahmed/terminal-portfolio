@@ -36,7 +36,17 @@ window.TP = window.TP || {};
    repo      Source URL, or null to hide the "source" button entirely
              (use null for projects whose code isn't public).
    featured  true = also appears as a card in ~/apps.
-   image     Card screenshot. See images/README.md for sizing.
+   image     OPTIONAL. Path to a real screenshot, e.g.
+             'images/projects/invoicer.png'.
+
+             Leave it out entirely and the card draws a CSS placeholder
+             instead — a small terminal window showing the project name,
+             language and stack. That placeholder follows the light/dark
+             theme, scales with the card, and costs no extra file, so a new
+             project needs no asset at all.
+
+             Recommended screenshot size: 1280x800 (16:10, matching the
+             card). See images/README.md.
    stars     Fallback star count shown before the live GitHub fetch lands.
    ========================================================================== */
 
@@ -53,7 +63,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/deployward',
     featured: true,
-    image: 'images/projects/deployward.svg',
     stars: 1
   },
   {
@@ -66,7 +75,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/licensekit',
     featured: true,
-    image: 'images/projects/licensekit.svg',
     stars: 2
   },
   {
@@ -79,7 +87,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/itinerly',
     featured: true,
-    image: 'images/projects/itinerly.svg',
     stars: 0
   },
   {
@@ -92,7 +99,6 @@ window.TP.PROJECTS = [
     live: 'https://invoicer.kamalahmed.me/',
     repo: 'https://github.com/kamalahmed/invoicer',
     featured: true,
-    image: 'images/projects/invoicer.svg',
     stars: 1
   },
   {
@@ -105,7 +111,6 @@ window.TP.PROJECTS = [
     live: 'https://ibrain.kamalahmed.me/',
     repo: 'https://github.com/kamalahmed/ibrain',
     featured: true,
-    image: 'images/projects/ibrain.svg',
     stars: 1
   },
 
@@ -121,8 +126,7 @@ window.TP.PROJECTS = [
     /* Maintained under the WPDeveloper organisation, not a personal repo,
        so the "source" button is hidden for this one. */
     repo: null,
-    featured: false,
-    image: 'images/projects/essential-addons.svg'
+    featured: false
   },
   {
     id: 'embedpress',
@@ -133,8 +137,7 @@ window.TP.PROJECTS = [
     stack: ['WordPress', 'Gutenberg'],
     live: 'https://wordpress.org/plugins/embedpress/',
     repo: null,
-    featured: false,
-    image: 'images/projects/embedpress.svg'
+    featured: false
   },
   {
     id: 'image-placeholder-app',
@@ -159,7 +162,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/whatsapp-ai',
     featured: false,
-    image: 'images/projects/whatsapp-ai.svg',
     stars: 1
   },
   {
@@ -172,7 +174,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/divine-prayer',
     featured: false,
-    image: 'images/projects/divine-prayer.svg',
     stars: 3
   },
   {
@@ -185,7 +186,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/code-screenshot',
     featured: false,
-    image: 'images/projects/code-screenshot.svg',
     stars: 2
   },
   {
@@ -198,7 +198,6 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/list-of-places-in-bangladesh',
     featured: false,
-    image: 'images/projects/list-of-places-in-bangladesh.svg',
     stars: 28
   }
 ];
