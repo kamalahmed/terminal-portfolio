@@ -241,13 +241,6 @@
   color: var(--dim);
 }
 
-.badge-hint {
-  margin-top: 16px;
-  font-size: 11px;
-  color: var(--dim);
-  user-select: none;
-  letter-spacing: .05em;
-}
 
 
 /* ==========================================================================
@@ -521,15 +514,41 @@
   flex: 1;
 }
 
+/* Name on the left, language + stars pinned right, always on ONE line.
+   Previously this wrapped, so a long project name pushed the language chip
+   onto its own row and the card headers stopped lining up with each other. */
 .project-head {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  /* Tight gaps here buy a few characters of title before it has to truncate,
+     which is often the difference between a name fitting and not. */
+  gap: 6px;
   margin-bottom: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
-.project-name { font-size: 16px; font-weight: 700; color: var(--ink); }
-.project-lang { margin-left: auto; font-size: 11px; white-space: nowrap; }
+
+/* min-width: 0 is what actually allows the ellipsis — without it a flex item
+   refuses to shrink below its content width and pushes its siblings out. */
+.project-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* flex: none keeps the metadata at its natural width, so the name is what
+   gives way rather than the language label being clipped. */
+.project-meta {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: none;
+}
+.project-lang { font-size: 11px; white-space: nowrap; }
 .project-stars { font-size: 11px; color: var(--amber); white-space: nowrap; }
 
 .project-tagline {

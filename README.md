@@ -174,9 +174,14 @@ drop project screenshots into `images/projects/`.
 
 | What | Size | Format |
 |---|---|---|
-| Project screenshot | **1280x800** (16:10) | PNG or JPG |
-| Your photo | **400x400** | JPG |
-| Social / OG card | **1200x630** | PNG or JPG - not SVG |
+| Project screenshot | **800×500** (16:10) | PNG or JPG |
+| Your photo | **400×400** | JPG |
+| Social / OG card | **1200×630** | PNG or JPG — not SVG |
+
+The card itself is only ~277px wide on desktop and ~390px on a phone, so 800px
+looks like overkill — it isn't. That 390px box needs 780 real pixels to render
+sharply on a 2× retina screen. 800×500 is the sweet spot; anything beyond
+1200px wide is wasted bytes. Keep files under ~200 KB.
 
 **A new project needs no image at all.** Leave `image` out of its entry in
 `js/data.js` and the card draws a CSS placeholder instead - a small terminal

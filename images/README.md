@@ -15,15 +15,37 @@ can use *outside* the page.
 
 | What | Size | Format | Notes |
 |---|---|---|---|
-| Project screenshot | **1280×800** | PNG or JPG | 16:10 — the card's exact aspect ratio. Cropped to fill, so keep the subject centred. |
-| Your photo | **400×400** | JPG | Square. Displayed as a 68px circle, so 400px is plenty. |
+| Project screenshot | **800×500** | PNG or JPG | 16:10 — the card's exact ratio. Cropped to fill, so keep the subject centred. |
+| Your photo | **400×400** | JPG | Square. Shown as a 68px circle. |
 | Social / OG card | **1200×630** | PNG or JPG | Must not be SVG — most platforms won't render it. |
 | Favicon | 64×64 | SVG | |
 
-Keep screenshots under ~300 KB. They're lazy-loaded, but a portfolio shouldn't
-ship megabytes of PNGs. [Squoosh](https://squoosh.app) is a good free
-compressor — JPG at quality 80 is usually indistinguishable and a fraction of
-the size.
+### Why 800px wide for a card that's only ~300px?
+
+Because of screen pixel density, not layout. The card is at its widest on a
+phone, where it fills the column:
+
+```
+desktop (4 columns in a 1160px grid) .... 277px
+phone   (1 column)                        390px   <- widest it ever renders
+```
+
+A 390px box on a 2× retina screen needs **780** real pixels to look sharp, and
+1170 on a 3× phone. So:
+
+| Image width | Result |
+|---|---|
+| 400px | Correct at 1×, visibly soft on every modern phone |
+| **800px** | **Sharp at 2× — the sweet spot, and what to use** |
+| 1200px | Sharp at 3×, for maybe 5% more perceived quality |
+| 1280px+ | Wasted bytes |
+
+800×500 is the right default. Only go to 1200×750 if the screenshot has fine
+detail (small UI text) that has to stay legible.
+
+Keep files under ~200 KB. They're lazy-loaded, but a portfolio shouldn't ship
+megabytes of PNGs. [Squoosh](https://squoosh.app) is a good free compressor —
+JPG at quality 80 is usually indistinguishable at a fraction of the size.
 
 ---
 

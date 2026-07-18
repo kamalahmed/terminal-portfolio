@@ -141,12 +141,15 @@ window.TP.projects = (function () {
       visual,
       el('div', { class: 'project-body' },
         el('div', { class: 'project-head' },
-          el('h3', { class: 'project-name' }, p.name),
-          el('span', {
-            class: 'project-lang',
-            style: 'color:' + langColor(p.language)
-          }, '● ' + p.language),
-          stars ? el('span', { class: 'project-stars' }, stars) : null
+          // `title` keeps the full name reachable when CSS truncates it.
+          el('h3', { class: 'project-name', title: p.name }, p.name),
+          el('span', { class: 'project-meta' },
+            el('span', {
+              class: 'project-lang',
+              style: 'color:' + langColor(p.language)
+            }, '● ' + p.language),
+            stars ? el('span', { class: 'project-stars' }, stars) : null
+          )
         ),
         el('p', { class: 'project-tagline' }, p.tagline),
         stack,

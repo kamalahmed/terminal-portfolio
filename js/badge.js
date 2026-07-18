@@ -16,7 +16,7 @@ window.TP = window.TP || {};
 window.TP.badge = (function () {
   'use strict';
 
-  const { $, el, clamp, seeded, isTouch, prefersReducedMotion } = window.TP.utils;
+  const { $, el, clamp, seeded, prefersReducedMotion } = window.TP.utils;
 
   /* ---- Tuning ------------------------------------------------------------
      STIFFNESS  higher = snaps back faster
@@ -72,11 +72,25 @@ window.TP.badge = (function () {
     let lastMoveTime = 0;
     let lastFrame = 0;
 
-    /** Angle from the pivot to the pointer, in radians. */
+    /**
+     * Angle from the pivot to the pointer, in radians. 0 = hanging straight
+     * down, positive = swung clockwise.
+     *
+     * The pivot is measured from the PARENT, not from `swing` itself. `swing`
+     * carries the rotation, and getBoundingClientRect() returns the
+     * axis-aligned box of a *transformed* element — so its centre drifts as
+     * the card swings. Using that as the pivot fed the rotation back into its
+     * own input, which made the card fight the cursor and travel the wrong
+     * way. The parent is never rotated, so its top-centre is the true and
+     * stable transform-origin.
+     */
     function pointerAngle(e) {
-      const rect = swing.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width / 2);
-      const dy = Math.max(e.clientY - rect.top, 1);   // guard divide-by-zero
+      const pivot = swing.parentElement.getBoundingClientRect();
+      const originX = pivot.left + pivot.width / 2;
+      const originY = pivot.top;
+
+      const dx = e.clientX - originX;
+      const dy = Math.max(e.clientY - originY, 1);   // guard divide-by-zero
       return Math.atan2(dx, dy);
     }
 
@@ -146,10 +160,9 @@ window.TP.badge = (function () {
   function init() {
     drawBarcode();
 
-    // "drag" implies a mouse; touch users swipe.
-    const hint = $('.badge-hint');
-    if (hint && isTouch()) hint.textContent = '↕ swipe the badge';
-
+    // No on-screen prompt to drag the badge: it swings from a fixed anchor
+    // rather than moving freely, so advertising it oversells what it does.
+    // The interaction still works for anyone who tries it.
     if (window.TP.config.features.badgeSwing) initSwing();
   }
 

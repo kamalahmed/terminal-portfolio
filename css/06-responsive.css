@@ -107,7 +107,6 @@
   .badge-name   { font-size: 16.5px; }
   .badge-body   { padding: 12px 15px 15px; }
   .badge-barcode { height: 28px; margin-top: 12px; }
-  .badge-hint   { margin-top: 12px; }
 
   .hero-intro { text-align: left; }
   .hero-role { margin-bottom: 20px; }
@@ -399,7 +398,7 @@
    ========================================================================== */
 @media print {
   nav, footer, #playground, .strip-section,
-  .badge-hint, .term-chips, .term-line, .contact-form { display: none !important; }
+  .term-chips, .term-line, .contact-form { display: none !important; }
 
   body { background: #fff; color: #000; }
   .win, .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }

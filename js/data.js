@@ -45,8 +45,16 @@ window.TP = window.TP || {};
              theme, scales with the card, and costs no extra file, so a new
              project needs no asset at all.
 
-             Recommended screenshot size: 1280x800 (16:10, matching the
-             card). See images/README.md.
+             THE FALLBACK IS AUTOMATIC. You never point at a placeholder
+             yourself — leave `image` out and one is drawn, and if a real
+             screenshot 404s or fails to load the card silently falls back to
+             the same placeholder rather than showing a broken image.
+
+             Example:
+               image: 'images/projects/invoicer.png'
+
+             Recommended size: 800x500 (16:10, matching the card).
+             See images/README.md for why 800px and not 300px.
    stars     Fallback star count shown before the live GitHub fetch lands.
    ========================================================================== */
 
@@ -63,6 +71,9 @@ window.TP.PROJECTS = [
     live: '',
     repo: 'https://github.com/kamalahmed/deployward',
     featured: true,
+    /* No `image` key, so this card draws the CSS placeholder. To use a real
+       screenshot, drop the file in images/projects/ and uncomment:
+           image: 'images/projects/deployward.png', */
     stars: 1
   },
   {
