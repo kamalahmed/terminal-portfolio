@@ -137,17 +137,17 @@ window.TP.PROJECTS = [
     image: 'images/projects/embedpress.svg'
   },
   {
-    id: 'slackify-wp',
-    name: 'Slackify WP',
-    tagline: 'Two-way Slack ↔ WordPress bridge for notifications and actions.',
+    id: 'image-placeholder-app',
+    name: 'Image Placeholder APP',
+    tagline: 'Generate placeholder images for your projects. You upload your image and get placeholders',
     type: 'plugin',
-    language: 'PHP',
-    stack: ['WordPress', 'Slack API'],
+    language: 'Javascript',
+    stack: ['JavaScript', 'HTML', 'CSS'],
     live: '',
-    repo: 'https://github.com/kamalahmed/slackify-wp',
-    featured: false,
-    image: 'images/projects/slackify-wp.svg',
-    stars: 1
+    repo: 'https://github.com/kamalahmed/image-placeholder-app',
+    featured: true,
+    image: 'images/projects/image-placeholder-app.png',
+    stars: 5
   },
   {
     id: 'whatsapp-ai',
