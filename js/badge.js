@@ -27,8 +27,12 @@ window.TP.badge = (function () {
   const STIFFNESS = 32;
   const DAMPING = 4;
   const MAX_ANGLE = 1.25;
-  const IDLE_AMPLITUDE = 0.02;
-  const IDLE_PERIOD = 1100;
+
+  /* Idle sway — the gentle drift so the badge never looks frozen.
+     AMPLITUDE is how far it leans, PERIOD is the speed: LOWER = FASTER.
+     A full left-right cycle takes about 2π x PERIOD milliseconds. */
+  const IDLE_AMPLITUDE = 0.024;
+  const IDLE_PERIOD = 620;
 
   let frameId = null;
 
@@ -73,16 +77,27 @@ window.TP.badge = (function () {
     let lastFrame = 0;
 
     /**
-     * Angle from the pivot to the pointer, in radians. 0 = hanging straight
-     * down, positive = swung clockwise.
+     * The rotation that puts the card under the pointer, in radians.
      *
-     * The pivot is measured from the PARENT, not from `swing` itself. `swing`
-     * carries the rotation, and getBoundingClientRect() returns the
-     * axis-aligned box of a *transformed* element — so its centre drifts as
-     * the card swings. Using that as the pivot fed the rotation back into its
-     * own input, which made the card fight the cursor and travel the wrong
-     * way. The parent is never rotated, so its top-centre is the true and
-     * stable transform-origin.
+     * TWO THINGS ARE EASY TO GET WRONG HERE — both were, originally.
+     *
+     * 1. WHERE THE PIVOT IS.
+     *    Measure it from the PARENT, not from `swing`. `swing` carries the
+     *    rotation, and getBoundingClientRect() returns the axis-aligned box
+     *    of a *transformed* element, so its centre drifts by over 100px as
+     *    the card swings. Feeding that back in makes the card fight the
+     *    cursor. The parent is never rotated, so its top-centre is the true,
+     *    stable transform-origin.
+     *
+     * 2. WHICH WAY THE SIGN GOES.
+     *    The card hangs BELOW its origin, which flips the intuition. A
+     *    positive CSS rotation is clockwise — and a point below the pivot
+     *    moving clockwise travels LEFT, the way a clock hand at 6 o'clock
+     *    heads toward 7. So dragging the pointer right (dx > 0) needs a
+     *    NEGATIVE rotation to make the card follow it. Hence the -dx.
+     *
+     *    Verify by measuring the card's on-screen position, not the sign of
+     *    the angle: drag right, `.badge-card`'s centre X must increase.
      */
     function pointerAngle(e) {
       const pivot = swing.parentElement.getBoundingClientRect();
@@ -91,7 +106,7 @@ window.TP.badge = (function () {
 
       const dx = e.clientX - originX;
       const dy = Math.max(e.clientY - originY, 1);   // guard divide-by-zero
-      return Math.atan2(dx, dy);
+      return Math.atan2(-dx, dy);
     }
 
     swing.addEventListener('pointerdown', e => {
