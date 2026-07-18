@@ -32,7 +32,7 @@ window.TP.badge = (function () {
      AMPLITUDE is how far it leans, PERIOD is the speed: LOWER = FASTER.
      A full left-right cycle takes about 2π x PERIOD milliseconds. */
   const IDLE_AMPLITUDE = 0.024;
-  const IDLE_PERIOD = 620;
+  const IDLE_PERIOD = 300;
 
   let frameId = null;
 
