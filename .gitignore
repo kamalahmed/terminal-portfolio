@@ -1,0 +1,45 @@
+# ---- OS ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---- Editors / IDEs ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-workspace
+
+# ---- Local editor/tool config, never published ----
+.claude/
+.cursor/
+.aider*
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+
+# ---- Tooling scratch ----
+.playwright-mcp/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.cache/
+dist/
+build/
+
+# ---- Local env ----
+.env
+.env.*
+!.env.example
+
+# ---- Local scratch files ----
+_*.html
+*.local.*

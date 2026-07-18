@@ -1,0 +1,123 @@
+/* ==========================================================================
+   01 — DESIGN TOKENS
+   ==========================================================================
+   Every colour, size, and timing value in the site resolves back to a variable
+   in this file. If you want to restyle the portfolio, start here — you should
+   rarely need to touch any other stylesheet to change how it looks.
+
+   HOW THEMING WORKS
+   -----------------
+   :root                      = dark theme (the default)
+   html[data-theme="light"]   = light theme overrides
+
+   js/theme.js flips the data-theme attribute on <html> and remembers the
+   choice in localStorage. Because every rule reads from these variables,
+   swapping themes needs no other code.
+
+   WANT A DIFFERENT ACCENT COLOUR?
+   Change --green (and --green2, its brighter hover partner) in BOTH blocks.
+   That single pair drives the prompts, buttons, links, borders, glow effects,
+   heatmap, skill bars, and game graphics.
+   ========================================================================== */
+
+:root {
+  /* ---- Surfaces ------------------------------------------------------- */
+  --bg:       #0a0e0d;   /* page background                                */
+  --panel:    #0e1412;   /* cards, terminal windows                        */
+  --panel2:   #0b100f;   /* window title bars, insets                      */
+  --cell:     #0f1613;   /* game tiles, badge hardware                     */
+  --canvas:   #08110d;   /* game canvas background                         */
+  --inner:    #05100b;   /* deepest inset (avatar well, badge clip)        */
+
+  /* ---- Text ----------------------------------------------------------- */
+  --ink:      #f4f8f6;   /* highest-contrast text: headings, names         */
+  --heading:  #eef3f0;   /* large display text                             */
+  --text:     #d7e0dc;   /* body copy                                      */
+  --soft:     #c3d2c9;   /* terminal output                                */
+  --muted:    #9fb0a7;   /* supporting copy                                */
+  --dim2:     #8a9a91;   /* nav links, captions                            */
+  --dim:      #6b7b73;   /* lowest-emphasis labels                         */
+
+  /* ---- Accents -------------------------------------------------------- */
+  --green:    #5ee6a0;   /* PRIMARY ACCENT — change this first             */
+  --green2:   #8ff0bd;   /* brighter partner, used on hover                */
+  --amber:    #f0c17a;   /* secondary accent, warnings, highlights         */
+  --blue:     #7fd3ff;   /* JSON keys, terminal paths                      */
+  --red:      #ff9b8a;   /* errors, wrong answers                          */
+  --onacc:    #04120b;   /* text drawn ON TOP of --green (contrast pair)   */
+
+  /* ---- Derived from the accent ---------------------------------------- */
+  --line:     rgba(94, 230, 160, .16);  /* standard borders                */
+  --line2:    rgba(94, 230, 160, .12);  /* subtle dividers                 */
+  --hover:    rgba(94, 230, 160, .08);  /* hover wash                      */
+  --chipbg:   rgba(94, 230, 160, .10);  /* chips, pills                    */
+  --track:    rgba(94, 230, 160, .10);  /* skill bar troughs               */
+  --shadow:   rgba(0, 0, 0, .7);        /* drop shadows                    */
+
+  /* ---- Typography ----------------------------------------------------- */
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ---- Layout --------------------------------------------------------- */
+  --wrap-max:  1160px;              /* max content width                   */
+  --wrap-pad:  clamp(18px, 5vw, 40px);
+  --nav-h:     62px;                /* sticky nav height. Used for
+                                       scroll-margin so anchored sections
+                                       do not hide underneath the nav.
+                                       js/nav.js keeps this in sync with
+                                       the real measured height.           */
+  --radius:    12px;
+  --radius-sm: 8px;
+  --radius-lg: 18px;
+
+  /* ---- Motion ---------------------------------------------------------
+     Set --reveal-dur and --reveal-shift to 0 to disable scroll animations
+     globally. They are also disabled automatically for anyone who has
+     "reduce motion" turned on in their OS (see 02-base.css).             */
+  --speed-fast:   .18s;
+  --speed:        .25s;
+  --speed-slow:   .56s;
+  --ease:         cubic-bezier(.2, .8, .2, 1);
+  --reveal-dur:   .6s;
+  --reveal-shift: 18px;             /* how far sections rise on entry      */
+
+  /* ---- Touch ----------------------------------------------------------
+     Minimum interactive target on touch screens. 44px is the accessibility
+     floor recommended by both Apple and WCAG.                            */
+  --tap-min: 44px;
+}
+
+/* ==========================================================================
+   LIGHT THEME
+   Only the values that actually differ are redeclared. Anything not listed
+   here is inherited from :root above.
+   ========================================================================== */
+html[data-theme="light"] {
+  --bg:      #eef1ee;
+  --panel:   #ffffff;
+  --panel2:  #f2f5f2;
+  --cell:    #e6ebe6;
+  --canvas:  #e9ede9;
+  --inner:   #e6ebe6;
+
+  --ink:     #0e1a14;
+  --heading: #14231c;
+  --text:    #24352c;
+  --soft:    #33443b;
+  --muted:   #586962;
+  --dim2:    #5c6c64;
+  --dim:     #78867e;
+
+  --green:   #0e8f52;
+  --green2:  #0aa85e;
+  --amber:   #b26b00;
+  --blue:    #2b6cb0;
+  --red:     #c0392b;
+  --onacc:   #ffffff;
+
+  --line:    rgba(14, 143, 82, .22);
+  --line2:   rgba(14, 143, 82, .14);
+  --hover:   rgba(14, 143, 82, .07);
+  --chipbg:  rgba(14, 143, 82, .08);
+  --track:   rgba(14, 143, 82, .12);
+  --shadow:  rgba(20, 40, 30, .14);
+}

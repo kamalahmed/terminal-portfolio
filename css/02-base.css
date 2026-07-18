@@ -1,0 +1,160 @@
+/* ==========================================================================
+   02 — BASE
+   ==========================================================================
+   Reset, root typography, shared keyframes, accessibility helpers, and the
+   scroll-reveal mechanism. Nothing here is specific to a single section.
+   ========================================================================== */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+/* Smooth anchor scrolling. `scroll-padding-top` keeps a section's heading
+   clear of the sticky nav when you jump to it from the menu. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 18px);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background var(--speed) ease, color var(--speed) ease;
+  /* Stops iOS Safari inflating font sizes in landscape. */
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, p, dl, dd, figure { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+a { color: var(--green); text-decoration: none; }
+a:hover { color: var(--green2); }
+
+button { font-family: inherit; }
+
+img { max-width: 100%; display: block; }
+
+input, textarea {
+  font-family: var(--font-mono);
+  color: var(--ink);
+  caret-color: var(--green);
+}
+
+/* ==========================================================================
+   FOCUS
+   Visible keyboard focus everywhere. Never remove this without replacing it —
+   it is the only way keyboard users can tell where they are.
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY HELPERS
+   ========================================================================== */
+
+/* Jump link revealed only when focused via keyboard. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  background: var(--green);
+  color: var(--onacc);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+  transition: top var(--speed-fast) ease;
+}
+.skip-link:focus { top: 8px; color: var(--onacc); }
+
+/* Visually hidden but still announced by screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Honeypot field — hidden from humans, filled by naive bots. Must stay in the
+   layout (not display:none) for some bots to see it. */
+.hp {
+  position: absolute !important;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+/* ==========================================================================
+   KEYFRAMES
+   ========================================================================== */
+@keyframes blink       { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }
+@keyframes glow        { 0%, 100% { box-shadow: 0 0 4px var(--green) }
+                         50% { box-shadow: 0 0 12px var(--green), 0 0 20px var(--line) } }
+@keyframes sheen       { 0% { left: -60% } 45% { left: 135% } 100% { left: 135% } }
+@keyframes borderslide { from { background-position: 0 0 } to { background-position: 250% 0 } }
+
+/* Circular wipe used by the theme toggle (View Transitions API). */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 0; }
+::view-transition-new(root) { z-index: 1; }
+
+/* ==========================================================================
+   SCROLL REVEAL
+   ==========================================================================
+   js/reveal.js adds .is-visible to each [data-reveal] element as it scrolls
+   into view. Elements start slightly lowered and transparent, then settle.
+
+   Anything WITHOUT data-reveal is unaffected, so content is never hidden if
+   JavaScript fails — reveal.js also force-reveals everything if the browser
+   lacks IntersectionObserver.
+   ========================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(var(--reveal-shift));
+  transition:
+    opacity   var(--reveal-dur) var(--ease),
+    transform var(--reveal-dur) var(--ease);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ==========================================================================
+   Honours the OS-level "reduce motion" setting. Content still appears — only
+   the movement is removed.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-reveal] { opacity: 1; transform: none; }
+}

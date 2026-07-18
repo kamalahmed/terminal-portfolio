@@ -1,0 +1,408 @@
+/* ==========================================================================
+   06 — RESPONSIVE
+   ==========================================================================
+   EVERY media query in the project lives in this file. Nothing here runs on
+   desktop, which means you can edit this file freely without any risk of
+   changing the desktop design.
+
+   BREAKPOINTS
+   -----------
+   1024px  small laptops / large tablets
+    900px  navigation collapses into the hamburger menu
+    860px  hero stacks — ID badge moves ABOVE the intro
+    560px  phones
+    400px  small phones
+
+   If you change the 900px nav breakpoint, change the matching value in
+   js/nav.js too (it closes an open menu when you resize back to desktop).
+
+   Plus two capability queries at the bottom for touch and coarse pointers.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   ≤ 1240px — RESTORE SECTION GUTTERS
+   ==========================================================================
+   Sections cancel `.wrap`'s horizontal padding (see 04-layout.css) so that
+   terminal windows span the full content width. Above this breakpoint the
+   max-width centring supplies the gutter on its own.
+
+   Below it there is no centring room left, and without this rule every
+   window would run flush into the edges of the screen.
+   ========================================================================== */
+@media (max-width: 1240px) {
+  .section,
+  .strip-section {
+    padding-left: var(--wrap-pad);
+    padding-right: var(--wrap-pad);
+  }
+}
+
+
+/* ==========================================================================
+   ≤ 1024px — small laptops and large tablets
+   ========================================================================== */
+@media (max-width: 1024px) {
+
+  /* The stats column loses its left rule and sits under the heatmap. */
+  .activity-stats {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--line2);
+    padding-top: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px 32px;
+  }
+
+  /* Games go one-per-row well before they'd get cramped. */
+  .play-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ==========================================================================
+   ≤ 860px — HERO STACKS
+   ==========================================================================
+   This is the block that puts the ID badge above the intro text on mobile.
+
+   The HTML deliberately places the intro first (better for SEO and screen
+   readers). Here we force a single column and give the badge `order: -1`,
+   which moves it to the top visually without touching the source order.
+   ========================================================================== */
+@media (max-width: 860px) {
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding-top: clamp(20px, 5vw, 34px);
+    padding-bottom: 32px;
+  }
+
+  /* ← the ID card above the header intro */
+  .badge-col {
+    order: -1;
+    min-height: auto;
+    padding-bottom: 8px;
+  }
+
+  /* The badge is absolutely positioned on desktop so it can swing freely.
+     On mobile we return it to normal flow so it takes only the height it
+     actually needs and pushes the intro down instead of overlapping it. */
+  .badge-pivot {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Slightly smaller card so it doesn't eat the whole first screen. */
+  .badge-swing { width: 240px; }
+  .badge-card  { width: 240px; }
+  .badge-straps { height: 62px; }
+  .badge-strap  { height: 74px; }
+  .badge-avatar { width: 58px; height: 58px; }
+  .badge-name   { font-size: 16.5px; }
+  .badge-body   { padding: 12px 15px 15px; }
+  .badge-barcode { height: 28px; margin-top: 12px; }
+  .badge-hint   { margin-top: 12px; }
+
+  .hero-intro { text-align: left; }
+  .hero-role { margin-bottom: 20px; }
+  .hero-blurb { margin-bottom: 22px; }
+}
+
+
+/* ==========================================================================
+   ≤ 900px — NAVIGATION COLLAPSES
+   ==========================================================================
+   The six section links plus the logo and two toggle buttons need roughly
+   880px to sit on one line. Below that they wrap into a second row and the
+   sticky bar doubles in height, so they move into a dropdown panel behind
+   the hamburger button instead.
+
+   js/nav.js manages `aria-expanded` on the button and `.is-open` on the
+   panel, closes on Escape, on outside click, and after any link is tapped.
+   ========================================================================== */
+@media (max-width: 900px) {
+
+  .nav-inner {
+    position: relative;      /* anchor for the absolutely-placed panel */
+    padding: 10px var(--wrap-pad);
+  }
+
+  .nav-toggle { display: flex; }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 6px var(--wrap-pad) 14px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 20px 40px -24px var(--shadow);
+  }
+  .nav-menu.is-open { display: flex; }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    font-size: 14.5px;
+  }
+  .nav-links li { border-bottom: 1px solid var(--line2); }
+  .nav-links li:last-child { border-bottom: none; }
+
+  /* Full-width rows with a comfortable tap height. */
+  .nav-links a {
+    display: block;
+    padding: 13px 2px;
+    min-height: var(--tap-min);
+  }
+
+  /* The sliding underline reads oddly on stacked rows, so the active item
+     gets a left bar and a tinted background instead. */
+  .nav-links a::after { display: none; }
+  .nav-links a.is-active {
+    background: var(--hover);
+    border-left: 2px solid var(--green);
+    padding-left: 10px;
+    margin-left: -12px;
+  }
+
+  .nav-actions {
+    margin-top: 12px;
+    gap: 10px;
+  }
+  .nav-actions .pill-btn {
+    flex: 1;
+    justify-content: center;
+    min-height: var(--tap-min);
+  }
+}
+
+
+/* ==========================================================================
+   ≤ 560px — PHONES
+   ========================================================================== */
+@media (max-width: 560px) {
+
+  /* ---- Section rhythm tightens up ----
+     Vertical only — see the note in 04-layout.css about never using the
+     `padding` shorthand here. */
+  .section { padding-top: 28px; padding-bottom: 14px; }
+  .sec-h { gap: 4px; margin-bottom: 14px; }
+  .sec-h span { font-size: 12px; }
+
+  /* ---- Hero ---- */
+  .hero-manifesto { margin-bottom: 12px; }
+  .hero-cta { gap: 10px; }
+  /* Buttons go full width so they're easy to hit. */
+  .hero-cta .btn {
+    flex: 1 1 100%;
+    min-height: var(--tap-min);
+  }
+
+  /* ---- Typed strip: hide the traffic lights, they cost width ---- */
+  .strip { gap: 8px; padding: 12px 13px; font-size: 12.5px; }
+  .strip .dots { display: none; }
+  .strip-prompt { font-size: 12px; }
+
+  /* ---- Activity ---- */
+  .activity-grid { padding: 14px; gap: 18px; }
+  .heat { gap: 2px; }
+  .activity-stats { gap: 18px 28px; }
+  .stat-value { font-size: 24px; }
+  /* The location stat is long; give it the full row. */
+  .stat:last-child { flex-basis: 100%; }
+
+  /* ---- Window title bars: the path text is too long to be useful here ---- */
+  /* Wrapping lets the filter chips drop onto their own row instead of
+     squeezing the title into a few characters. */
+  .winbar { padding: 10px 12px; flex-wrap: wrap; }
+  .winbar-title { font-size: 11px; }
+  .winbar-meta { display: none; }
+
+  /* ---- Terminal ---- */
+  .term-chips { gap: 6px; width: 100%; margin-left: 0; margin-top: 8px; }
+  .term-chips .chip {
+    flex: 1;
+    text-align: center;
+    min-height: 32px;
+  }
+  /* Fixed 440px is a lot of a phone screen. Scale with the viewport. */
+  .term-out {
+    height: clamp(260px, 45vh, 440px);
+    padding: 14px 14px;
+    font-size: 12.5px;
+  }
+  /* Rows restack: glyph + name on top, language + stars underneath, so long
+     taglines stop pushing the metadata off-screen. */
+  .term-row {
+    grid-template-columns: 18px 1fr;
+    gap: 4px 10px;
+    padding: 9px 8px;
+  }
+  .term-row-meta {
+    grid-column: 2;
+    gap: 10px;
+    font-size: 11px;
+  }
+  .term-row-desc { display: block; margin-top: 2px; }
+
+  .term-line { padding: 0 14px 14px; gap: 6px; }
+  .term-prompt { font-size: 11.5px; }
+  /* 16px stops iOS Safari zooming the page when the field is focused.
+     The min-height keeps the field itself an easy target to tap into. */
+  .term-input { font-size: 16px; min-height: 36px; }
+  .term-detail { padding: 13px 14px; }
+  .term-detail-links .btn { flex: 1 1 100%; min-height: var(--tap-min); }
+
+  /* ---- Skills: label above the bar instead of a fixed 118px column ---- */
+  .skills-grid { padding: 18px 16px; gap: 20px; }
+  .skill-row {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+  .skill-name { width: auto; flex: 1 1 auto; }
+  .skill-pct { order: 2; }
+  .skill-track { order: 3; flex-basis: 100%; }
+
+  /* ---- Contact: labels sit above their fields ---- */
+  .contact-body { padding: 18px 16px; }
+  .field-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .field-label { width: auto; padding-top: 0 !important; }
+  /* 16px prevents iOS Safari zooming in when the field is focused;
+     the min-height gives each field a comfortable tap area. */
+  .field { font-size: 16px; min-height: 40px; }
+  .ta { font-size: 16px; }
+  .form-actions { gap: 12px; }
+  .form-actions .btn-primary {
+    width: 100%;
+    min-height: var(--tap-min);
+  }
+  .form-alt { font-size: 11.5px; }
+  .channel-val { font-size: 12px; }
+
+  /* ---- Games ---- */
+  .game-body { padding: 14px 14px; gap: 12px; }
+  .snake-body { padding: 12px 12px 6px; }
+  .snake-ov { inset: 12px 12px 6px; }
+  .snake-foot { padding: 6px 12px 12px; }
+  .snake-foot-hint { flex: 1 1 100%; }
+  /* Bigger D-pad — this is the primary control on a phone. */
+  .dpad {
+    grid-template-columns: repeat(3, var(--tap-min));
+    grid-template-rows: repeat(2, 38px);
+    margin: 4px auto 0;
+    gap: 6px;
+  }
+  .dpad .chip { font-size: 16px; }
+
+  .type-line { font-size: 15px; line-height: 1.9; }
+  .type-result { gap: 10px; font-size: 12.5px; }
+  .type-result .btn { margin-left: 0; width: 100%; min-height: var(--tap-min); }
+
+  .mem-grid { gap: 6px; max-width: 100%; }
+  .seq-grid { gap: 10px; max-width: 260px; }
+
+  .game-ov-title { font-size: 17px; }
+  .game-ov-sub { font-size: 12px; }
+  .game-ov .btn { min-height: var(--tap-min); }
+
+  /* ---- Footer ---- */
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 40px;
+  }
+  .footer-links { gap: 14px 18px; }
+}
+
+
+/* ==========================================================================
+   ≤ 400px — SMALL PHONES
+   ========================================================================== */
+@media (max-width: 400px) {
+
+  .badge-swing, .badge-card { width: 214px; }
+  .badge-fields { font-size: 10.5px; }
+  .badge-head-label { letter-spacing: .1em; }
+
+  /* At this width "● OPEN TO WORK" wraps onto two lines and breaks the card's
+     bottom edge. Tighten the tracking and forbid the wrap. */
+  .badge-foot {
+    font-size: 8.5px;
+    letter-spacing: .05em;
+    gap: 6px;
+  }
+  .badge-foot span { white-space: nowrap; }
+
+  .term-chips .chip { font-size: 11px; padding: 4px 6px; }
+  .skills-grid { padding: 16px 12px; }
+  .heat { gap: 1.5px; }
+
+  .footer-links { gap: 12px 14px; font-size: 12px; }
+}
+
+
+/* ==========================================================================
+   TOUCH / COARSE POINTER
+   ==========================================================================
+   Keyed off input capability rather than screen width, so a touchscreen
+   laptop gets these too.
+   ========================================================================== */
+
+/* Hover effects that "stick" after a tap are worse than no hover effect. */
+@media (hover: none) {
+  .card-hover:hover { transform: none; }
+  .term-row:hover { background: none; }
+  .term-row:active { background: var(--hover); }
+}
+
+@media (pointer: coarse) {
+  /* Guarantee the accessibility minimum on every interactive control. */
+  .chip,
+  .pill-btn,
+  .btn,
+  .nav-toggle,
+  .channel {
+    min-height: var(--tap-min);
+  }
+
+  .chip, .pill-btn {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* The drag hint is meaningless without a mouse — say "swipe" instead.
+     (The text itself is swapped by js/badge.js.) */
+  .badge-swing { cursor: default; }
+}
+
+
+/* ==========================================================================
+   PRINT
+   ==========================================================================
+   A CV-ish printout: drop the chrome, the games, and anything interactive.
+   ========================================================================== */
+@media print {
+  nav, footer, #playground, .strip-section,
+  .badge-hint, .term-chips, .term-line, .contact-form { display: none !important; }
+
+  body { background: #fff; color: #000; }
+  .win, .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+  .term-out { height: auto; overflow: visible; }
+  a { color: #000; }
+}

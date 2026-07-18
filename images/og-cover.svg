@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0e0d"/>
+  <defs><pattern id="og" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#5ee6a0" opacity="0.07"/>
+    </pattern></defs>
+    <rect x="0" y="0" width="1200" height="630" fill="url(#og)"/>
+
+  <rect x="60" y="60" width="1080" height="510" rx="18" fill="#0e1412" stroke="#1b2b23"/>
+  <rect x="60" y="60" width="1080" height="56" rx="18" fill="#0b100f"/>
+  <rect x="60" y="98" width="1080" height="18" fill="#0b100f"/>
+  <line x1="60" y1="116" x2="1140" y2="116" stroke="#1b2b23"/>
+  <circle cx="94" cy="88" r="7" fill="#ff5f56"/>
+  <circle cx="118" cy="88" r="7" fill="#ffbd2e"/>
+  <circle cx="142" cy="88" r="7" fill="#27c93f"/>
+  <text x="172" y="94" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" fill="#6b7b73">kamal@dev: ~ — zsh</text>
+
+  <text x="112" y="204" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5ee6a0">$ whoami</text>
+  <text x="112" y="292" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="70" font-weight="700" fill="#f4f8f6">Kamal Ahmed</text>
+  <text x="112" y="340" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="24" fill="#9fb0a7">Full-stack Software Engineer · 12+ years</text>
+
+  <text x="112" y="418" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" fill="#5ee6a0">$ cat manifesto.txt</text>
+  <text x="112" y="470" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="38" font-weight="500" fill="#f4f8f6">&quot;I think, then I build.&quot;</text>
+
+  <text x="112" y="530" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="19" fill="#f0c17a">● open to work · Dubai, UAE</text>
+</svg>

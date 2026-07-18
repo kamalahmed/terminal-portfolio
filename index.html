@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  TERMINAL PORTFOLIO
+  ============================================================================
+  A single-page, no-build developer portfolio with a terminal aesthetic.
+
+  WHERE TO EDIT WHAT
+  ------------------
+  Your name, bio, headings, prose ....... this file (look for EDIT markers)
+  Projects / skills / services lists .... js/data.js
+  Contact form key, GitHub username ..... js/config.js
+  Colours, fonts, spacing, sizing ....... css/01-variables.css
+  Mobile / tablet layout ................ css/06-responsive.css
+  Images ................................ images/  (see images/README.md)
+
+  There is no build step. Edit a file, refresh the browser. That's the whole
+  workflow. You can even open this file straight from disk (file://) and
+  everything works, which is why the scripts at the bottom are plain classic
+  scripts rather than ES modules.
+  ============================================================================
+-->
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- ==== EDIT: page title, description, and social sharing metadata ==== -->
+<title>Kamal Ahmed — Full-stack Software Engineer</title>
+<meta name="description" content="I think, then I build. Full-stack software engineer with 12+ years shipping plugins, apps, and automations. PHP, JavaScript, React, Next.js. Based in Dubai." />
+<meta name="author" content="Kamal Ahmed" />
+<meta name="theme-color" content="#0a0e0d" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#eef1ee" media="(prefers-color-scheme: light)" />
+<link rel="canonical" href="https://kamalahmed.me/" />
+
+<!-- Open Graph / Twitter cards. Replace images/og-cover.png with your own
+     1200x630 image; social platforms will not render SVG here. -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://kamalahmed.me/" />
+<meta property="og:title" content="Kamal Ahmed — Full-stack Software Engineer" />
+<meta property="og:description" content="I think, then I build. 12+ years shipping plugins, apps, and automations." />
+<meta property="og:image" content="https://kamalahmed.me/images/og-cover.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@kamalahmedpms" />
+
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="images/avatar.svg" />
+
+<!-- Fonts. Swap the family here AND in css/01-variables.css (--font-mono). -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+
+<!-- ==== Stylesheets, loaded in cascade order ====
+     01 variables  design tokens        <- change colours/sizing HERE
+     02 base       reset + typography
+     03 components buttons, cards, windows, form fields
+     04 layout     nav, page shell, footer
+     05 sections   one block per page section
+     06 responsive every media query    <- change mobile layout HERE
+-->
+<link rel="stylesheet" href="css/01-variables.css" />
+<link rel="stylesheet" href="css/02-base.css" />
+<link rel="stylesheet" href="css/03-components.css" />
+<link rel="stylesheet" href="css/04-layout.css" />
+<link rel="stylesheet" href="css/05-sections.css" />
+<link rel="stylesheet" href="css/06-responsive.css" />
+</head>
+
+<body>
+
+<!-- Keyboard users land here first; lets them jump past the nav. -->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!--
+  ==========================================================================
+  NAVIGATION
+  ==========================================================================
+  Each link's href must match the id of a <section> below. The active link is
+  highlighted automatically as you scroll (js/nav.js) — do NOT hardcode an
+  active class here.
+
+  To add a nav item: add an <li> here, and give the target section an id.
+  Below 720px these links collapse into the hamburger menu automatically.
+-->
+<nav id="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#top">
+      <span class="accent-green">❯</span> kamalahmed<span class="accent-green">.dev</span>
+    </a>
+
+    <!-- Hamburger. Hidden on desktop via CSS; js/nav.js manages aria-expanded. -->
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-expanded="false" aria-controls="navMenu" aria-label="Open menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <div class="nav-menu" id="navMenu">
+      <ul class="nav-links">
+        <li><a href="#activity">~/activity</a></li>
+        <li><a href="#featured">~/apps</a></li>
+        <li><a href="#work">~/work</a></li>
+        <li><a href="#skills">~/skills</a></li>
+        <li><a href="#playground">~/play</a></li>
+        <li><a href="#contact">~/contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <!-- Labels are filled in by js/theme.js and js/audio.js -->
+        <button class="pill-btn" id="themeBtn" type="button" aria-label="Toggle colour theme"></button>
+        <button class="pill-btn" id="muteBtn" type="button" aria-label="Toggle sound effects"></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+
+<!--
+  ==========================================================================
+  HERO  —  name, one-liner, bio, call-to-action buttons, ID badge
+  ==========================================================================
+  EDIT: everything in .hero-intro below is plain text. Change it freely.
+
+  Note on source order: the intro comes FIRST in the HTML because it is the
+  most important content for search engines and screen readers. On mobile,
+  css/06-responsive.css visually moves the ID badge above it with `order`.
+-->
+<section class="wrap" id="top">
+  <div class="hero">
+
+    <div class="hero-intro">
+      <p class="prompt">$ whoami</p>
+      <h1 class="hero-name">Kamal Ahmed</h1>
+      <p class="hero-role">
+        <span class="accent-amber">// কামাল</span> · Full-stack Software Engineer · Dubai, UAE
+      </p>
+
+      <p class="prompt">$ cat manifesto.txt</p>
+      <p class="hero-manifesto">“I think, then I build.”</p>
+
+      <p class="hero-blurb">
+        I turn legacy codebases into clean systems and ship with cross-functional
+        teams. I care about clean code, how systems handle edge cases, and the
+        trust that comes from things just working.
+      </p>
+
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/kamalahmed" target="_blank" rel="noopener">./github ↗</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/kamalahmedpms/" target="_blank" rel="noopener">./linkedin</a>
+        <a class="btn btn-ghost" href="#contact">./email</a>
+      </div>
+    </div>
+
+    <!--
+      ID BADGE — the lanyard card. It swings on a spring simulation and can be
+      dragged (js/badge.js). To swap the photo, replace images/avatar.svg or
+      point the <img> below at your own file.
+    -->
+    <div class="badge-col">
+      <div class="badge-pivot">
+        <div class="badge-swing" id="badgeSwing">
+          <div class="badge-hook"></div>
+          <div class="badge-straps">
+            <span class="badge-strap badge-strap-l"></span>
+            <span class="badge-strap badge-strap-r"></span>
+          </div>
+
+          <div class="badge-card">
+            <div class="badge-head">
+              <span class="dot dot-live"></span>
+              <span class="badge-head-label">DEV ACCESS</span>
+              <span class="badge-head-id">#062014</span>
+            </div>
+
+            <div class="badge-clip-row"><span class="badge-clip"></span></div>
+
+            <div class="badge-body">
+              <div class="badge-id">
+                <img class="badge-avatar" src="images/avatar.svg"
+                     alt="Portrait of Kamal Ahmed" width="68" height="68"
+                     loading="lazy" decoding="async" />
+                <div>
+                  <p class="badge-name">Kamal Ahmed</p>
+                  <p class="badge-role">Full-stack Software Engineer</p>
+                  <p class="badge-native">// কামাল</p>
+                </div>
+              </div>
+
+              <!-- EDIT: the four stat cells on the badge -->
+              <dl class="badge-fields">
+                <div class="badge-field"><dt>SINCE</dt><dd>2014</dd></div>
+                <div class="badge-field"><dt>REPOS</dt><dd id="badgeRepos">62 public</dd></div>
+                <div class="badge-field"><dt>EXP</dt><dd>12+ yrs</dd></div>
+                <div class="badge-field"><dt>LOC</dt><dd>Dubai, UAE</dd></div>
+              </dl>
+
+              <!-- Decorative barcode, drawn by js/badge.js -->
+              <div class="badge-barcode" id="badgeBarcode" aria-hidden="true"></div>
+
+              <div class="badge-foot">
+                <span>KAMALAHMED.DEV</span>
+                <span class="accent-green">● OPEN TO WORK</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="badge-hint">↕ drag the badge</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  TYPED TERMINAL STRIP
+  ==========================================================================
+  EDIT the rotating strings in js/config.js → TYPED_LINES
+-->
+<section class="wrap strip-section" aria-label="Terminal">
+  <div class="strip">
+    <span class="dots" aria-hidden="true">
+      <span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span>
+    </span>
+    <span class="strip-prompt">kamal@dev ~ $</span>
+    <span class="strip-typed" id="typed"></span>
+    <span class="caret" aria-hidden="true"></span>
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/activity  —  GitHub contribution heatmap + headline stats
+  ==========================================================================
+  Data is fetched live in js/activity.js. If the API is unreachable the grid
+  renders dimmed with a note — it never invents contribution data.
+-->
+<section class="wrap section" id="activity">
+  <div class="win">
+    <div class="winbar">
+      <span class="dots" aria-hidden="true">
+        <span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span>
+      </span>
+      <span class="winbar-title">kamal@dev: ~/activity — git log --graph</span>
+    </div>
+
+    <div class="activity-grid">
+      <div class="activity-heat">
+        <div class="activity-heat-head">
+          <span class="accent-green">contribution graph</span>
+          <span>2014 → now</span>
+        </div>
+        <div class="heat" id="heat" role="img" aria-label="GitHub contribution graph"></div>
+        <p class="heat-note" id="heatNote" hidden></p>
+        <div class="heat-legend" aria-hidden="true">
+          <span>less</span>
+          <span class="heat-key" data-level="1"></span>
+          <span class="heat-key" data-level="2"></span>
+          <span class="heat-key" data-level="3"></span>
+          <span class="heat-key" data-level="4"></span>
+          <span>more</span>
+        </div>
+      </div>
+
+      <!-- EDIT: the three headline numbers -->
+      <div class="activity-stats">
+        <div class="stat"><p class="stat-value">12+</p><p class="stat-label">years shipping software</p></div>
+        <div class="stat"><p class="stat-value" id="statRepos">62</p><p class="stat-label">public repositories</p></div>
+        <div class="stat"><p class="stat-value accent-green">Dubai, UAE</p><p class="stat-label">● open to work · since 2014</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/apps  —  featured product cards
+  ==========================================================================
+  Cards are generated from js/data.js. Any project with `featured: true`
+  appears here. To change what is shown, edit the PROJECTS array — not this
+  markup.
+-->
+<section class="wrap section" id="featured">
+  <header class="sec-h">
+    <h2>~/apps</h2>
+    <span>products I designed &amp; built — click a card to visit</span>
+  </header>
+  <div class="card-grid" id="featuredGrid"></div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/work  —  interactive project terminal
+  ==========================================================================
+  Type `help` for the command list. Commands live in js/terminal.js;
+  the projects they list come from js/data.js.
+-->
+<section class="wrap section" id="work">
+  <header class="sec-h">
+    <h2>~/work</h2>
+    <span>every repo — click a project or type a command · try help</span>
+  </header>
+
+  <div class="win">
+    <div class="winbar">
+      <span class="dots" aria-hidden="true">
+        <span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span>
+      </span>
+      <span class="winbar-title">kamal@dev: ~/projects — zsh</span>
+      <div class="term-chips" id="termChips">
+        <button class="chip" type="button" data-cmd="ls">ls</button>
+        <button class="chip" type="button" data-cmd="ls apps">apps</button>
+        <button class="chip" type="button" data-cmd="ls plugins">plugins</button>
+        <button class="chip" type="button" data-cmd="ls oss">oss</button>
+        <button class="chip" type="button" data-cmd="clear">clear</button>
+      </div>
+    </div>
+
+    <div class="term-out" id="termOut" role="log" aria-live="polite" aria-label="Terminal output"></div>
+
+    <form class="term-line" id="termForm">
+      <label class="term-prompt" for="termInput">kamal@dev ~/projects $</label>
+      <span class="caret" aria-hidden="true"></span>
+      <input class="term-input" id="termInput" name="command" type="text"
+             placeholder="type a command…" spellcheck="false" autocomplete="off" />
+    </form>
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/skills  —  proficiency bars
+  ==========================================================================
+  Generated from SKILL_GROUPS in js/data.js. Bars animate in on scroll.
+-->
+<section class="wrap section" id="skills">
+  <header class="sec-h">
+    <h2>~/skills</h2>
+    <span>$ htop --sort proficiency</span>
+  </header>
+
+  <div class="win">
+    <div class="winbar">
+      <span class="dots" aria-hidden="true">
+        <span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span>
+      </span>
+      <span class="winbar-title">kamal@dev: ~ — htop</span>
+      <span class="winbar-meta accent-green">load avg: shipping · shipping · shipping</span>
+    </div>
+    <div class="skills-grid" id="skillsGrid"></div>
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/playground  —  four small games
+  ==========================================================================
+  Each game mounts into its own container below and lives in js/games/.
+  To remove one: delete its <div> here and its <script> tag at the bottom.
+-->
+<section class="wrap section" id="playground">
+  <header class="sec-h">
+    <h2>~/playground</h2>
+    <span>a little fun — every good build deserves a break. take five, then get back to shipping.</span>
+  </header>
+  <div class="play-grid">
+    <div id="gameSnake"></div>
+    <div id="gameTyping"></div>
+    <div id="gameMemory"></div>
+    <div id="gameSequence"></div>
+  </div>
+</section>
+
+<!--
+  ==========================================================================
+  ~/contact  —  working contact form + status sidebar
+  ==========================================================================
+  The form posts to Web3Forms. It is a real HTML form with a real action, so
+  it still works if JavaScript is disabled. js/contact.js upgrades it to an
+  inline fetch submit with the terminal-style success animation.
+
+  SETUP: put your own key in js/config.js → WEB3FORMS_KEY.
+  Get one free (no account needed) at https://web3forms.com
+-->
+<section class="wrap section" id="contact">
+  <header class="sec-h">
+    <h2>~/contact</h2>
+    <span>let's build something together</span>
+  </header>
+
+  <div class="contact-grid">
+    <div class="win" id="contactWin">
+      <div class="winbar">
+        <span class="dots" aria-hidden="true">
+          <span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span>
+        </span>
+        <span class="winbar-title">kamal@dev: ~/contact — ./say-hi</span>
+      </div>
+
+      <div class="contact-body" id="contactBody">
+        <p class="accent-green contact-cmd">$ ./say-hi --to kamal</p>
+        <p class="contact-note"># Open to full-stack, plugin, or product work. Fill the fields below — I reply within a day or two.</p>
+
+        <form class="contact-form" id="contactForm"
+              action="https://api.web3forms.com/submit" method="POST">
+
+          <!-- Filled in from js/config.js so the key lives in exactly one place -->
+          <input type="hidden" name="access_key" id="formAccessKey" value="" />
+          <input type="hidden" name="subject" value="New message from kamalahmed.dev" />
+          <input type="hidden" name="from_name" value="kamalahmed.dev" />
+          <!-- Honeypot: bots fill this, humans never see it. -->
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" />
+
+          <label class="field-row">
+            <span class="field-label">name:</span>
+            <input class="field" type="text" name="name" id="cName"
+                   placeholder="your name" required spellcheck="false" autocomplete="name" />
+          </label>
+
+          <label class="field-row">
+            <span class="field-label">email:</span>
+            <input class="field" type="email" name="email" id="cEmail"
+                   placeholder="you@domain.com" required spellcheck="false" autocomplete="email" />
+          </label>
+
+          <label class="field-row field-row-top">
+            <span class="field-label">message:</span>
+            <textarea class="ta" name="message" id="cMsg" rows="4"
+                      placeholder="what are you building?" required spellcheck="false"></textarea>
+          </label>
+
+          <p class="form-error" id="formError" role="alert" hidden></p>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit" id="formSubmit">send message ↵</button>
+            <span class="form-alt"># or email me directly →
+              <a href="mailto:kamalacca@gmail.com">kamalacca@gmail.com</a>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="contact-side">
+      <!-- EDIT: availability block -->
+      <div class="card">
+        <div class="winbar">
+          <span class="dot dot-live"></span>
+          <span class="winbar-title">status.json</span>
+        </div>
+        <div class="json-block">
+          <div class="dim">{</div>
+          <div><span class="k">"status"</span>: <span class="s-green">"available"</span>,</div>
+          <div><span class="k">"reply_time"</span>: <span class="s-amber">"24–48h"</span>,</div>
+          <div><span class="k">"timezone"</span>: <span class="s-amber">"GST · UTC+4"</span>,</div>
+          <div><span class="k">"remote"</span>: <span class="s-green">true</span>,</div>
+          <div><span class="k">"location"</span>: <span class="s-amber">"Dubai, UAE"</span></div>
+          <div class="dim">}</div>
+        </div>
+      </div>
+
+      <!-- Generated from SERVICES in js/data.js -->
+      <div class="card card-pad">
+        <p class="card-kicker accent-amber">// what I can help with</p>
+        <ul class="service-list" id="serviceList"></ul>
+      </div>
+
+      <!-- EDIT: your social channels -->
+      <div class="card card-pad">
+        <p class="card-kicker accent-green">$ ./connect --channels</p>
+        <div class="channels">
+          <a class="channel" href="https://github.com/kamalahmed" target="_blank" rel="noopener">
+            <span class="channel-key">github</span><span class="channel-val">@kamalahmed</span><span class="channel-go">↗</span>
+          </a>
+          <a class="channel" href="https://www.linkedin.com/in/kamalahmedpms/" target="_blank" rel="noopener">
+            <span class="channel-key">linkedin</span><span class="channel-val">in/kamalahmedpms</span><span class="channel-go">↗</span>
+          </a>
+          <a class="channel" href="https://x.com/kamalahmedpms" target="_blank" rel="noopener">
+            <span class="channel-key">x</span><span class="channel-val">@kamalahmedpms</span><span class="channel-go">↗</span>
+          </a>
+          <a class="channel" href="mailto:kamalacca@gmail.com">
+            <span class="channel-key">email</span><span class="channel-val">kamalacca@gmail.com</span><span class="channel-go">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<!-- ==== EDIT: footer links and copyright ==== -->
+<footer>
+  <div class="wrap footer-inner">
+    <span class="footer-copy">© 2026 Kamal Ahmed · built in the terminal <span class="accent-green">_</span></span>
+    <div class="footer-links">
+      <a href="https://github.com/kamalahmed" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/kamalahmedpms/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/kamalahmedpms" target="_blank" rel="noopener">X</a>
+      <a href="https://profiles.wordpress.org/kamalahmed/" target="_blank" rel="noopener">WordPress</a>
+      <a href="mailto:kamalacca@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<!--
+  ==========================================================================
+  SCRIPTS
+  ==========================================================================
+  Plain classic scripts with `defer`, so they run in document order after the
+  HTML parses. No modules, no bundler — this means the site works when opened
+  directly from the filesystem.
+
+  Everything attaches to one global: window.TP
+
+  ORDER MATTERS. config/data/utils must load before anything that uses them,
+  and main.js must load last because it starts everything.
+-->
+<script defer src="js/config.js"></script>
+<script defer src="js/data.js"></script>
+<script defer src="js/utils.js"></script>
+
+<script defer src="js/theme.js"></script>
+<script defer src="js/audio.js"></script>
+<script defer src="js/nav.js"></script>
+<script defer src="js/reveal.js"></script>
+<script defer src="js/badge.js"></script>
+<script defer src="js/typed.js"></script>
+<script defer src="js/activity.js"></script>
+<script defer src="js/projects.js"></script>
+<script defer src="js/terminal.js"></script>
+<script defer src="js/skills.js"></script>
+<script defer src="js/contact.js"></script>
+
+<script defer src="js/games/shell.js"></script>
+<script defer src="js/games/snake.js"></script>
+<script defer src="js/games/typing.js"></script>
+<script defer src="js/games/memory.js"></script>
+<script defer src="js/games/sequence.js"></script>
+
+<script defer src="js/main.js"></script>
+</body>
+</html>

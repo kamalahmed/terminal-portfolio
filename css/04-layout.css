@@ -1,0 +1,199 @@
+/* ==========================================================================
+   04 — LAYOUT
+   ==========================================================================
+   The page shell: content width, sticky navigation, section rhythm, footer.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Content container. Everything sits inside one of these.
+   -------------------------------------------------------------------------- */
+.wrap {
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+  padding: 0 var(--wrap-pad);
+}
+
+/* --------------------------------------------------------------------------
+   Section rhythm
+
+   scroll-margin-top is what makes anchor links land correctly: without it,
+   clicking "~/skills" would scroll the heading underneath the sticky nav.
+   -------------------------------------------------------------------------- */
+/* Sections deliberately cancel the horizontal padding they inherit from
+   `.wrap`, so terminal windows span the full --wrap-max content width and sit
+   slightly wider than the hero text column. On wide screens the max-width
+   centring still leaves a generous gutter, so nothing touches the edges.
+
+   Below --wrap-max there is no centring gutter left to rely on, and content
+   WOULD run edge-to-edge. css/06-responsive.css restores the padding there.
+
+   Vertical values use padding-top/padding-bottom rather than the `padding`
+   shorthand, so this horizontal intent stays explicit instead of being an
+   invisible side effect. */
+.section {
+  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-left: 0;
+  padding-right: 0;
+  scroll-margin-top: calc(var(--nav-h) + 18px);
+}
+#top { scroll-margin-top: 0; }
+
+.strip-section {
+  padding-top: 4px;
+  padding-bottom: 26px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ==========================================================================
+   NAVIGATION
+   ==========================================================================
+   Sticky, translucent, blurred. Desktop shows all links inline; below the
+   mobile breakpoint (06-responsive.css) they collapse behind the hamburger.
+   ========================================================================== */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line2);
+}
+
+/* Fallback for browsers without color-mix(): use a solid background so the
+   nav never renders fully transparent over scrolling content. */
+@supports not (background: color-mix(in srgb, red 50%, transparent)) {
+  nav { background: var(--bg); }
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px var(--wrap-pad);
+  max-width: var(--wrap-max);
+  margin: 0 auto;
+}
+
+.nav-logo {
+  font-weight: 700;
+  color: var(--ink);
+  flex: none;
+}
+.nav-logo:hover { color: var(--ink); }
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: clamp(11px, 2.4vw, 24px);
+  flex-wrap: wrap;
+}
+
+.nav-links {
+  display: flex;
+  gap: clamp(11px, 2.4vw, 24px);
+  font-size: 13px;
+  color: var(--dim2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.nav-links a {
+  color: inherit;
+  position: relative;
+  padding: 4px 0;
+  transition: color var(--speed-fast) ease;
+}
+.nav-links a:hover { color: var(--green2); }
+
+/* ---- Active link ---------------------------------------------------------
+   js/nav.js adds .is-active to exactly one link as you scroll, driven by an
+   IntersectionObserver. The underline slides in from the left.
+   -------------------------------------------------------------------------- */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 100%;
+  background: var(--green);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--speed) var(--ease);
+}
+.nav-links a.is-active { color: var(--green); }
+.nav-links a.is-active::after { transform: scaleX(1); }
+
+.nav-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: none;
+}
+
+/* ---- Hamburger -----------------------------------------------------------
+   Hidden on desktop. Shown and wired up in 06-responsive.css.
+   -------------------------------------------------------------------------- */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  padding: 0;
+  background: var(--chipbg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  flex: none;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  margin: 0 auto;
+  background: var(--green);
+  transition: transform var(--speed) var(--ease), opacity var(--speed-fast) ease;
+}
+
+/* Bars morph into an X while the menu is open. */
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+footer {
+  border-top: 1px solid var(--line2);
+  margin-top: 20px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 24px;
+  padding-bottom: 60px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  color: var(--dim);
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+.footer-links a { color: var(--dim2); }
+.footer-links a:hover { color: var(--green); }
