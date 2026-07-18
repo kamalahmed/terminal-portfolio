@@ -163,8 +163,8 @@ the terminal-style confirmation.
 
 ### 5. Your images
 
-See [`images/README.md`](images/README.md) for filenames and sizes. Short
-version: replace `images/avatar.svg` with your photo, drop project screenshots
+See [`images/README.md`](images/README.md) for filenames and sizes. Short  
+version: replace `images/avatar.svg or id-pic.jpeg`  with your photo, drop project screenshots  
 into `images/projects/`, and point `data.js` at them.
 
 ### 6. Turn things off
