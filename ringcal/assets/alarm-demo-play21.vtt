@@ -1,0 +1,21 @@
+WEBVTT
+
+00:00.000 --> 00:04.000
+Actual Play test build21 on an Android16 emulator.
+This screen recording does not capture alarm audio.
+
+00:04.000 --> 00:12.000
+The new reminder uses Morning Bell and a near-future time.
+
+00:12.000 --> 00:17.000
+One-minute saved ring limit, repetition and user-controlled actions.
+Save the reminder, return Home and put the screen to sleep.
+
+00:19.000 --> 00:31.000
+The real scheduled alarm opens the ringing screen.
+
+00:31.000 --> 00:40.000
+The ongoing alarm notification offers Dismiss and Snooze.
+
+00:40.000 --> 00:45.480
+Dismiss stops this active alarm before its saved limit.
